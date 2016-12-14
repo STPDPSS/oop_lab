@@ -2,6 +2,10 @@ package application;
 
 import com.sun.javafx.scene.control.skin.TableColumnHeader;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Objects;
@@ -22,25 +26,52 @@ public class TabulatedFunctions extends JFrame {
   private JButton deletePointButton;
   private JTable functions;
 
+  private FunctionParameters functionParameters;
+  private TabulatedFunctionData tabulatedFunctionData;
+  private JFileChooser fileChooser;
+
   public TabulatedFunctions() {
     setContentPane(contentPane);
     setTitle("Tabulated Functions");
     setResizable(true);
     setFocusable(true);
 
+    fileChooser = new JFileChooser();
+
     JMenuBar menubar = new JMenuBar();
 
     JMenu file = new JMenu("File");
-//    JMenuItem eMenuItem1 = new JMenuItem("Exit");
-//    file.add(eMenuItem1);
+    JMenuItem newFile = new JMenuItem("New...");
+    newFile.addActionListener(e -> {
+      functionParameters = new FunctionParameters();
+      functionParameters.showDialog();
+    });
+    JMenuItem openFile = new JMenuItem("Open...");
+    openFile.addActionListener(e -> {
+      fileChooser.showOpenDialog(contentPane);
+    });
+    JMenuItem saveFile = new JMenuItem("Save");
+    JMenuItem saveAsFile = new JMenuItem("Save as...");
+    JMenuItem exit = new JMenuItem("Exit");
+    file.add(newFile);
+    file.add(openFile);
+    file.add(saveFile);
+    file.add(saveAsFile);
+    file.add(exit);
+
     JMenu tabulate = new JMenu("Tabulate");
-    //JMenuItem eMenuItem2 = new JMenuItem("Tabulate");
-    //tabulate.add(eMenuItem2);
+    JMenuItem tabulateFunction = new JMenuItem("Tabulate function...");
+    tabulateFunction.addActionListener(e -> {
+      fileChooser.showOpenDialog(contentPane);
+    });
+    tabulate.add(tabulateFunction);
 
     menubar.add(file);
     menubar.add(tabulate);
 
     setJMenuBar(menubar);
+    pack();
+
   }
 
   public static void main(String[] args) {
@@ -62,5 +93,6 @@ public class TabulatedFunctions extends JFrame {
         {rnd.nextDouble(), rnd.nextDouble()}
     };
     functions = new JTable(data, columnNames);
+    functions.revalidate();
   }
 }

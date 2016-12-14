@@ -26,6 +26,7 @@ public class FunctionParameters extends JDialog {
     setModal(true);
     setResizable(false);
     setFocusable(true);
+    setDefaultCloseOperation(HIDE_ON_CLOSE);
 
     pointsCountInput.setModel(new SpinnerNumberModel(2, 2, Integer.MAX_VALUE, 1));
 
@@ -48,7 +49,7 @@ public class FunctionParameters extends JDialog {
       windowStatus = OK;
     } catch (Exception e) {
       JOptionPane.showMessageDialog(this, "Ooops! Incorrect data :(\n" +
-          "Please, try again.");
+          "Please try again.");
     }
   }
 
@@ -58,7 +59,9 @@ public class FunctionParameters extends JDialog {
   }
 
   int showDialog() {
-    this.setVisible(true);
+    FunctionParameters dialog = new FunctionParameters();
+    dialog.pack();
+    dialog.setVisible(true);
     return windowStatus;
   }
 
